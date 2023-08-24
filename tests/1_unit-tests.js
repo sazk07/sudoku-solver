@@ -16,5 +16,11 @@ suite('Unit Tests', () => {
       assert.throws(outputFn, 'Invalid characters in puzzle')
       done()
     })
+    test('puzzle string not 81 chars in length', (done) => {
+      const invalidLenStr = '..9..5.1.5.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..'
+      const outputFn = () => solver.validate(invalidLenStr)
+      assert.throws(outputFn, 'Expected puzzle to be 81 characters long')
+      done()
+    })
   })
 })
