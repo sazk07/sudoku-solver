@@ -59,9 +59,12 @@ class SudokuSolver {
     return true
   }
 
-  static #isUsedInSubGrid(grid, row, col, value) {
+  static #isUsedInSubGrid(grid, initRow, initCol, value) {
     for (let row = 0; row < 3; row++) {
       for (let col = 0; col < 3; col++) {
+        if (grid[initRow+row][initCol+col]===value) {
+          return true
+        }
       }
     }
     return false

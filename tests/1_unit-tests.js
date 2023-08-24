@@ -48,9 +48,19 @@ suite('Unit Tests', () => {
     })
   })
   suite('Function checkRegionPlacement()', () => {
-    test('checek for valid region placement', (done) => {
+    test('check for valid region placement', (done) => {
       const output = solver.checkRegionPlacement(inputStr, 4, 4, 3)
+      assert.isTrue(output)
       done()
+    })
+    test('check for invalid region placement', (done) => {
+      const output = solver.checkRegionPlacement(inputStr, 1, 8, 2)
+      assert.isFalse(output)
+      done()
+    })
+  })
+  suite('Function solvePuzzle', () => {
+    test('check that valid string passes the solver', (done) => {
     })
   })
 })
