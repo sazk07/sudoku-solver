@@ -1,4 +1,4 @@
-import { assert, expect } from "chai";
+import { assert } from "chai";
 import { Solver } from '../controllers/sudoku-solver.js'
 const inputStr = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..'
 
@@ -12,8 +12,8 @@ suite('Unit Tests', () => {
     })
     test('are there invalid characters in input?', (done) => {
       const invalidInputStr = '..9..5.1.85.4....2x32......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..'
-      const output = () => solver.validate(invalidInputStr)
-      expect(output).to.throw('Invalid characters in puzzle')
+      const outputFn = () => solver.validate(invalidInputStr)
+      assert.throws(outputFn, 'Invalid characters in puzzle')
       done()
     })
   })
