@@ -23,4 +23,34 @@ suite('Unit Tests', () => {
       done()
     })
   })
+  suite('Function checkRowPlacement()', () => {
+    test('check for valid row placement', (done) => {
+      const output = solver.checkRowPlacement(inputStr, 0, 3)
+      assert.isTrue(output)
+      done()
+    })
+    test('check for invalid row placement', (done) => {
+      const output = solver.checkRowPlacement(inputStr, 0, 9)
+      assert.isFalse(output)
+      done()
+    })
+  })
+  suite('Function checkColPlacement()', () => {
+    test('check for valid column placement', (done) => {
+      const output = solver.checkColPlacement(inputStr, 5, 2)
+      assert.isTrue(output)
+      done()
+    })
+    test('check for invalid column placement', (done) => {
+      const output = solver.checkColPlacement(inputStr, 3, 7)
+      assert.isFalse(output)
+      done()
+    })
+  })
+  suite('Function checkRegionPlacement()', () => {
+    test('checek for valid region placement', (done) => {
+      const output = solver.checkRegionPlacement(inputStr, 4, 4, 3)
+      done()
+    })
+  })
 })

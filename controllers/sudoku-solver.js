@@ -21,7 +21,7 @@ class SudokuSolver {
       throw new Error('Invalid characters in puzzle')
     }
 
-    SudokuSolver.#createGridFromString(puzzleString)
+    this.#createGridFromString(puzzleString)
     return null
   }
 
@@ -35,19 +35,44 @@ class SudokuSolver {
   }
 
   checkRowPlacement(puzzleString, row, value) {
-    SudokuSolver.#createGridFromString(puzzleString)
+    this.#createGridFromString(puzzleString)
     if (SudokuSolver.#isUsedInRow(this.#puzzle, row, value)) {
       return false
     }
     return true
   }
 
-  checkColPlacement(puzzleString, column, value) {
+  static #isUsedInColumn(grid, col, value) {
+    for (let row = 0; row < TOTALHEIGHT; row++) {
+      if (grid[row][col]===value) {
+        return true
+      }
+    }
+    return false
+  }
 
+  checkColPlacement(puzzleString, column, value) {
+    this.#createGridFromString(puzzleString)
+    if (SudokuSolver.#isUsedInColumn(this.#puzzle, column, value)) {
+      return false
+    }
+    return true
+  }
+
+  static #isUsedInSubGrid(grid, row, col, value) {
+    for (let row = 0; row < 3; row++) {
+      for (let col = 0; col < 3; col++) {
+      }
+    }
+    return false
   }
 
   checkRegionPlacement(puzzleString, row, column, value) {
-
+    this.#createGridFromString(puzzleString)
+    if (SudokuSolver.#isUsedInSubGrid(this.#puzzle, row, column, value)) {
+      return false
+    }
+    return true
   }
 
   solve(puzzleString) {
@@ -74,7 +99,7 @@ class SudokuSolver {
     return true
   }
 
-  static #createGridFromString(puzzleString) {
+  #createGridFromString(puzzleString) {
     for (let row = 0; row < TOTALWIDTH; row++) {
       this.#puzzle.push([])
     }
@@ -84,14 +109,6 @@ class SudokuSolver {
         this.#puzzle[row][col] = SudokuSolver.#isValidInput(charOfInputStr) ? parseInt(charOfInputStr): 0;
       }
     }
-  }
-
-  static #isUsedInColumn(grid, col, value) {
-    return false
-  }
-
-  static #isUsedInSubGrid(grid, subgrid, value) {
-    return false
   }
 
   static #isSafe(grid, row, col, value) {
