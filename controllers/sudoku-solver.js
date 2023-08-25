@@ -82,44 +82,6 @@ class SudokuSolver {
     return true
   }
 
-  #createGridFromString(puzzleString) {
-    for (let row = 0; row < TOTALWIDTH; row++) {
-      this.#puzzle.push([])
-    }
-    for (let row = 0; row < TOTALHEIGHT; row++) {
-      for (let col = 0; col < TOTALWIDTH; col++) {
-        const charOfInputStr = puzzleString.charAt(String(row).concat(String(col))-row)
-        this.#puzzle[row][col] = SudokuSolver.#isValidInput(charOfInputStr) ? parseInt(charOfInputStr): 0;
-      }
-    }
-  }
-
-  #isDigitLegal({ emptyCellsAllowed }) {
-    for (let row=0; row<TOTALHEIGHT; row++) {
-      for (let col=0; col<TOTALWIDTH; col++) {
-        let value = this.#puzzle[row][col]
-        // if empty cells are allowed then ignore zeroes
-        if (emptyCellsAllowed && value === 0) {
-          continue
-        }
-        // fill with zeroes
-        this.#puzzle[row][col] = 0
-        if ((!emptyCellsAllowed && value === 0) || !SudokuSolver.#isSafe(this.#puzzle, row, col, value)) {
-          this.#puzzle[row][col] = value
-          return false
-        }
-        this.#puzzle[row][col] = value
-      }
-    }
-    return true
-  }
-
-  #isSolutionComplete() {
-    return this.#isDigitLegal({
-      emptyCellsAllowed: false
-    })
-  }
-
   static #getUnassignedLocation(grid) {
    for (let row = 0; row < TOTALHEIGHT; row++) {
       for (let col = 0; col < TOTALWIDTH; col++) {
@@ -152,6 +114,56 @@ class SudokuSolver {
       }
     }
     return false
+  }
+
+  static #isSafe(grid, row, col, value) {
+    // check is num placed in row, col or subgrid?
+    if (SudokuSolver.#isUsedInRow(grid, row, value) || SudokuSolver.#isUsedInColumn(grid, col, value) || SudokuSolver.#isUsedInSubGrid(grid, row-(row%3), col-(col%3), value)) {
+      return false
+    }
+    return true
+  }
+
+  #isDigitLegal({ emptyCellsAllowed }) {
+    for (let row=0; row<TOTALHEIGHT; row++) {
+      for (let col=0; col<TOTALWIDTH; col++) {
+        let value = this.#puzzle[row][col]
+        // if empty cells are allowed then ignore zeroes
+        if (emptyCellsAllowed && value === 0) {
+          continue
+        }
+        // fill with zeroes
+        this.#puzzle[row][col] = 0
+        if ((!emptyCellsAllowed && value === 0) || !SudokuSolver.#isSafe(this.#puzzle, row, col, value)) {
+          this.#puzzle[row][col] = value
+          return false
+        }
+        this.#puzzle[row][col] = value
+      }
+    }
+    return true
+  }
+
+  #isSolutionComplete() {
+    return this.#isDigitLegal({
+      emptyCellsAllowed: false
+    })
+  }
+
+  static #isValidInput(inputChar) {
+    return (typeof inputChar === 'string' && inputChar.match(/[1-9]/))
+  }
+
+  #createGridFromString(puzzleString) {
+    for (let row = 0; row < TOTALWIDTH; row++) {
+      this.#puzzle.push([])
+    }
+    for (let row = 0; row < TOTALHEIGHT; row++) {
+      for (let col = 0; col < TOTALWIDTH; col++) {
+        const charOfInputStr = puzzleString.charAt(String(row).concat(String(col))-row)
+        this.#puzzle[row][col] = SudokuSolver.#isValidInput(charOfInputStr) ? parseInt(charOfInputStr): 0;
+      }
+    }
   }
 
   solve(puzzleString) {
@@ -210,16 +222,6 @@ class SudokuSolver {
     return [row, col]
   }
 
-  static #isSafe(grid, row, col, value) {
-    // check is num placed in row, col or subgrid?
-    if (SudokuSolver.#isUsedInRow(grid, row, value) || SudokuSolver.#isUsedInColumn(grid, col, value) || SudokuSolver.#isUsedInSubGrid(grid, row-(row%3), col-(col%3), value)) {
-      return false
-    }
-    return true
-  }
-  static #isValidInput(inputChar) {
-    return (typeof inputChar === 'string' && inputChar.match(/[1-9]/))
-  }
 }
 
 export {
