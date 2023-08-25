@@ -3,6 +3,7 @@ import { Solver } from '../controllers/sudoku-solver.js'
 const inputStr = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..'
 
 const solver = new Solver()
+
 suite('Unit Tests', () => {
   suite('Function validate()', () => {
     test('is input length 81 chars?', (done) => {
@@ -59,17 +60,26 @@ suite('Unit Tests', () => {
       done()
     })
   })
-  // suite('Test the solver', () => {
-  //   test('check that valid string passes the solver', (done) => {
-  //     const validStr = '769235418851496372432178956174569283395842761628713549283657194516924837947381625'
-  //   })
-  //   test('check that invalid string fails the solver', (done) => {
-  //     const invalidStr = '779235418851496372432178956174569283395842761628713549283657194516924837947381625'
-  //   })
-  // })
-  // suite('Function solve()', () => {
-  //   test('return expected solution for a given string', (done) => {
-  //     const answer =  '769235418851496372432178956174569283395842761628713549283657194516924837947381625'
-  //   })
-  // })
+  suite('Test the solver', () => {
+    test('check that valid string passes the solver', (done) => {
+      const validStr = '769235418851496372432178956174569283395842761628713549283657194516924837947381625'
+      const output = solver.solve(validStr)
+      assert.isTrue(output)
+      done()
+    })
+    test('check that invalid string fails the solver', (done) => {
+      const invalidStr = '779235418851496372432178956174569283395842761628713549283657194516924837947381625'
+      const output = solver.solve(invalidStr)
+      assert.isFalse(output)
+      done()
+    })
+  })
+  suite('Function solve()', () => {
+    test('return expected solution for a given string', (done) => {
+      const expectedSolution =  '769235418851496372432178956174569283395842761628713549283657194516924837947381625'
+      solver.solve(inputStr)
+      assert.equal(solver.createStringFromGrid(), expectedSolution)
+      done()
+    })
+  })
 })

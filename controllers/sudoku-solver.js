@@ -82,13 +82,53 @@ class SudokuSolver {
     return true
   }
 
-  solve(puzzleString) {
-    this.#createGridFromString(puzzleString)
-    if (puzzleString.match(/\./gi)) {
-      this.#recursions = 0
-      return this.#solveSudoku(this.#puzzle)
+  #createGridFromString(puzzleString) {
+    for (let row = 0; row < TOTALWIDTH; row++) {
+      this.#puzzle.push([])
     }
-    return this.#isSolutionComplete()
+    for (let row = 0; row < TOTALHEIGHT; row++) {
+      for (let col = 0; col < TOTALWIDTH; col++) {
+        const charOfInputStr = puzzleString.charAt(String(row).concat(String(col))-row)
+        this.#puzzle[row][col] = SudokuSolver.#isValidInput(charOfInputStr) ? parseInt(charOfInputStr): 0;
+      }
+    }
+  }
+
+  #isDigitLegal({ emptyCellsAllowed }) {
+    for (let row=0; row<TOTALHEIGHT; row++) {
+      for (let col=0; col<TOTALWIDTH; col++) {
+        let value = this.#puzzle[row][col]
+        // if empty cells are allowed then ignore zeroes
+        if (emptyCellsAllowed && value === 0) {
+          continue
+        }
+        // fill with zeroes
+        this.#puzzle[row][col] = 0
+        if ((!emptyCellsAllowed && value === 0) || !SudokuSolver.#isSafe(this.#puzzle, row, col, value)) {
+          this.#puzzle[row][col] = value
+          return false
+        }
+        this.#puzzle[row][col] = value
+      }
+    }
+    return true
+  }
+
+  #isSolutionComplete() {
+    return this.#isDigitLegal({
+      emptyCellsAllowed: false
+    })
+  }
+
+  static #getUnassignedLocation(grid) {
+   for (let row = 0; row < TOTALHEIGHT; row++) {
+      for (let col = 0; col < TOTALWIDTH; col++) {
+        if (grid[row][col]===0) {
+          return [row, col]
+        }
+      }
+    }
+    return [10, 10]
   }
 
   #solveSudoku(grid) {
@@ -114,24 +154,22 @@ class SudokuSolver {
     return false
   }
 
-  static #getUnassignedLocation(grid) {
-   for (let row = 0; row < TOTALHEIGHT; row++) {
-      for (let col = 0; col < TOTALWIDTH; col++) {
-        if (grid[row][col]===0) {
-          return [row, col]
-        }
-      }
+  solve(puzzleString) {
+    this.#createGridFromString(puzzleString)
+    if (puzzleString.match(/\./gi)) {
+      this.#recursions = 0
+      return this.#solveSudoku(this.#puzzle)
     }
-    return [10, 10]
+    return this.#isSolutionComplete()
   }
 
   static clearTargetCellInPuzzle(puzzleString, row, col) {
     this.#createGridFromString(puzzleString)
     this.#puzzle[row][col] = 0
-    return SudokuSolver.#createStringFromGrid()
+    return this.createStringFromGrid()
   }
 
-  static #createStringFromGrid() {
+  createStringFromGrid() {
     let output = ''
     for (let row = 0; row < TOTALHEIGHT; row++) {
       for (let col = 0; col < TOTALWIDTH; col++) {
@@ -170,44 +208,6 @@ class SudokuSolver {
     }
     const col = valNumPortion - 1
     return [row, col]
-  }
-
-  #isSolutionComplete() {
-    return SudokuSolver.#isDigitLegal({
-      emptyCellsAllowed: false
-    })
-  }
-
-  #isDigitLegal({ emptyCellsAllowed }) {
-    for (let row=0; row<TOTALHEIGHT; row++) {
-      for (let col=0; col<TOTALWIDTH; col++) {
-        let value = this.#puzzle[row][col]
-        // if empty cells are allowed then ignore zeroes
-        if (emptyCellsAllowed && value === 0) {
-          continue
-        }
-        // fill with zeroes
-        this.#puzzle[row][col] = 0
-        if ((!emptyCellsAllowed && value === 0) || !SudokuSolver.#isSafe(this.#puzzle, row, col, value)) {
-          this.#puzzle[row][col] = value
-          return false
-        }
-        this.#puzzle[row][col] = value
-      }
-    }
-    return true
-  }
-
-  #createGridFromString(puzzleString) {
-    for (let row = 0; row < TOTALWIDTH; row++) {
-      this.#puzzle.push([])
-    }
-    for (let row = 0; row < TOTALHEIGHT; row++) {
-      for (let col = 0; col < TOTALWIDTH; col++) {
-        const charOfInputStr = puzzleString.charAt(String(row).concat(String(col))-row)
-        this.#puzzle[row][col] = SudokuSolver.#isValidInput(charOfInputStr) ? parseInt(charOfInputStr): 0;
-      }
-    }
   }
 
   static #isSafe(grid, row, col, value) {
