@@ -7,6 +7,7 @@ import createHttpError from 'http-errors';
 import apiRoutes from './routes/api.js'
 
 import * as url from 'url'
+import { indexRouter } from './routes/index.js';
 const __dirname = url.fileURLToPath(new URL(".", import.meta.url))
 
 const app = express();
@@ -17,7 +18,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', apiRoutes);
+app.use('/', indexRouter)
+app.use('/api', apiRoutes);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -32,7 +34,10 @@ app.use((err, req, res, next) => {
 
   // render the error page
   res.status(err.status || 500)
-  res.render("error")
+  res.json({
+    message: err.message,
+    error: err
+  })
 })
 
 export { app }
