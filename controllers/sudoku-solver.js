@@ -22,7 +22,7 @@ class SudokuSolver {
     }
 
     this.#createGridFromString(puzzleString)
-    const isLegal = SudokuSolver.#isDigitLegal({ emptyCellsAllowed: true })
+    const isLegal = this.#isDigitLegal({ emptyCellsAllowed: true })
     if (!isLegal) {
       throw new Error('Puzzle cannot be solved')
     }
@@ -178,7 +178,7 @@ class SudokuSolver {
     })
   }
 
-  static #isDigitLegal({ emptyCellsAllowed }) {
+  #isDigitLegal({ emptyCellsAllowed }) {
     for (let row=0; row<TOTALHEIGHT; row++) {
       for (let col=0; col<TOTALWIDTH; col++) {
         let value = this.#puzzle[row][col]
