@@ -22,6 +22,10 @@ document.addEventListener("DOMContentLoaded", () => {
   fillpuzzle(textArea.value)
 })
 
+textArea.addEventListener("input", () => {
+  fillpuzzle(textArea.value)
+})
+
 async function getSolved() {
   const stuff = { "puzzle": textArea.value }
   const data = await fetch("/api/solve", {

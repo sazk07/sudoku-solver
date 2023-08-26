@@ -4,7 +4,7 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan'
 import createHttpError from 'http-errors';
 
-import apiRoutes from './routes/api.js'
+import { router as apiRoutes } from './routes/api.js'
 
 import * as url from 'url'
 import { indexRouter } from './routes/index.js';
