@@ -175,7 +175,7 @@ class SudokuSolver {
     return this.#isSolutionComplete()
   }
 
-  static clearTargetCellInPuzzle(puzzleString, row, col) {
+  clearTargetCellInPuzzle(puzzleString, row, col) {
     this.#createGridFromString(puzzleString)
     this.#puzzle[row][col] = 0
     return this.createStringFromGrid()
