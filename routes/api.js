@@ -5,7 +5,7 @@ import { Router } from 'express'
 const solver = new Solver()
 const router = Router()
 
-router.post('/check', asyncHandler(async (req, res) => {
+const checkFn = async (req, res, next) => {
   const { puzzle, coordinate, value } = req.body
   if (!puzzle || !coordinate || !value) {
     return next(new Error("Required field(s) missing"))
@@ -18,11 +18,11 @@ router.post('/check', asyncHandler(async (req, res) => {
     return next(new Error("Invalid value"))
   }
   solver.validate(puzzle)
-  solver.getCoordinate(coordinate)
+  const [row, col] = solver.getCoordinate(coordinate)
   const clearedPuzzleStr = solver.clearTargetCellInPuzzle(puzzle, row, col)
   const isRowClear = solver.checkRowPlacement(clearedPuzzleStr, row, valueNum)
-  const isColClear = solver.checkColPlacement(clearedPuzzleStr, row, valueNum)
-  const isRegionClear = solver.checkRegionPlacement(clearedPuzzleStr, row-(row%3), col-(col%3), valueNum)
+  const isColClear = solver.checkColPlacement(clearedPuzzleStr, col, valueNum)
+  const isRegionClear = solver.checkRegionPlacement(clearedPuzzleStr, row - (row % 3), col - (col % 3), valueNum)
   if (!isRowClear || !isColClear || !isRegionClear) {
     const result = []
     if (!isRowClear) {
@@ -42,7 +42,8 @@ router.post('/check', asyncHandler(async (req, res) => {
   return res.json({
     valid: true
   })
-}))
+}
+router.post('/check', asyncHandler(checkFn))
 
 const solveFn = async (req, res, next) => {
   const { puzzle } = req.body
