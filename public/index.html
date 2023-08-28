@@ -12,7 +12,7 @@
     </header>
     <div class="container">
       <div class="form-container">
-        <form id="solve-form" action="/api/solve" method="post">
+        <form id="solve-form">
           <textarea
             rows="10"
             cols="85"
@@ -20,13 +20,13 @@
             name="puzzle"
             ></textarea>
           <br />
-          <button type="submit" id="solve-button">Solve</button>
+          <input type="button" value="Solve" id="solve-button"/>
           <div id="error-msg"></div>
         </form>
-        <form id="check-form" method="post" action="/api/check">
+        <form id="check-form">
           <p>Coordinate (A1): <input id="coord" class="checker" type="text" name="coordinate"></p>
           <p>Value (1-9): <input class="checker" type="text" id="val" name="value"></p>
-          <button type="submit" id="check-button">Check Placement</button>
+          <input type="button" id="check-button" value="Check Placement">
         </form>
         <span id="error"></span>
       </div>

@@ -38,7 +38,7 @@ async function getSolved() {
   })
   const parsed = await data.json()
   if (parsed.error) {
-    errorMsg.textContent = `<code>${JSON.stringify(parsed, null, 2)}</code>`
+    errorMsg.innerHTML = `<code>${JSON.stringify(parsed, null, 2)}</code>`
     return
   }
   fillpuzzle(parsed.solution)
@@ -59,7 +59,7 @@ async function getChecked() {
     body: JSON.stringify(stuff)
   })
   const parsed = await data.json()
-  errorMsg.textContent = `<code>${JSON.stringify(parsed, null, 2)}</code>`
+  errorMsg.innerHTML = `<code>${JSON.stringify(parsed, null, 2)}</code>`
 }
 
 document.getElementById("solve-button").addEventListener("click", getSolved)
