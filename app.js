@@ -3,11 +3,10 @@ import path from 'path'
 import cookieParser from 'cookie-parser';
 import logger from 'morgan'
 import createHttpError from 'http-errors';
-
 import { router as apiRoutes } from './routes/api.js'
-
-import * as url from 'url'
 import { indexRouter } from './routes/index.js';
+import 'dotenv/config'
+import * as url from 'url'
 const __dirname = url.fileURLToPath(new URL(".", import.meta.url))
 
 const app = express();
