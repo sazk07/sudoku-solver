@@ -2,6 +2,9 @@
   "name": "self-sudoku-solver",
   "type": "module",
   "version": "0.0.0",
+  "engines": {
+    "node": ">=18.17.0"
+  },
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
@@ -12,6 +15,7 @@
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
+    "dotenv": "^16.3.1",
     "express": "~4.16.1",
     "express-async-handler": "^1.2.0",
     "http-errors": "^2.0.0",
