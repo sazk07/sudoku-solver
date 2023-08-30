@@ -9,8 +9,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "devstart": "nodemon ./bin/www",
-    "serverstart": "DEBUG=.:* npm run devstart",
-    "test": "mocha --timeout 5000 --require @babel/register --recursive --exit --ui tdd tests/"
+    "serverstart": "DEBUG=.:* npm run devstart"
   },
   "dependencies": {
     "compression": "^1.7.4",
