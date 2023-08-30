@@ -6,15 +6,27 @@ import createHttpError from 'http-errors';
 import { router as apiRoutes } from './routes/api.js'
 import { indexRouter } from './routes/index.js';
 import 'dotenv/config'
+import compression from 'compression';
+import { contentSecurityPolicy } from 'helmet';
+import RateLimit from 'express-rate-limit'
 import * as url from 'url'
 const __dirname = url.fileURLToPath(new URL(".", import.meta.url))
 
 const app = express();
 
+const limiter = RateLimit({
+  windowMS: 1 * 60 * 1000,
+  max: 20,
+})
+app.use(limiter)
+
+app.use(contentSecurityPolicy())
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(compression())
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter)
