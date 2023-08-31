@@ -1,5 +1,5 @@
 {
-  "name": "self-sudoku-solver",
+  "name": "sudoku-solver",
   "type": "module",
   "version": "0.0.0",
   "engines": {
