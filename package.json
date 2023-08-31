@@ -1,7 +1,7 @@
 {
   "name": "sudoku-solver",
   "type": "module",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "engines": {
     "node": ">=18.17.0"
   },
