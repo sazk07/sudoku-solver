@@ -4,7 +4,6 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan'
 import createHttpError from 'http-errors';
 import { router as apiRoutes } from './routes/api.js'
-import { indexRouter } from './routes/index.js';
 import 'dotenv/config'
 import compression from 'compression';
 import { contentSecurityPolicy } from 'helmet';
@@ -29,7 +28,6 @@ app.use(cookieParser());
 app.use(compression())
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter)
 app.use('/api', apiRoutes);
 
 // catch 404 and forward to error handler
