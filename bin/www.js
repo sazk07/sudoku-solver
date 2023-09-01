@@ -6,7 +6,7 @@
 
 import { app } from '../app.js'
 import debug from 'debug'
-debug.debug('self-sudoku-solver:server')
+debug.debug('sudoku-solver:server')
 import http from "http"
 
 /**
